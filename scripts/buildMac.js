@@ -19,8 +19,9 @@ function toArch (platform) {
 }
 
 require('./createPackage.js')('mac', { arch: toArch(platform) }).then(function (packagePath) {
+  const appBundle = (packageFile.productName || 'Min') + '.app'
   if (platform === 'arm64') {
-    execSync('codesign -s - -a arm64 -f --deep ' + packagePath + '/Min.app')
+    execSync('codesign -s - -a arm64 -f --deep ' + path.join(packagePath, appBundle))
   }
 
   /* create output directory if it doesn't exist */
@@ -31,12 +32,12 @@ require('./createPackage.js')('mac', { arch: toArch(platform) }).then(function (
 
   /* create zip file */
 
-  var output = fs.createWriteStream('dist/app/min-v' + version + '-mac-' + platform + '.zip')
+  var output = fs.createWriteStream('dist/app/' + (packageFile.name || 'min') + '-v' + version + '-mac-' + platform + '.zip')
   var archive = archiver('zip', {
     zlib: { level: 9 }
   })
 
-  archive.directory(path.resolve(packagePath, 'Min.app'), 'Min.app')
+  archive.directory(path.resolve(packagePath, appBundle), appBundle)
 
   archive.pipe(output)
   archive.finalize()
