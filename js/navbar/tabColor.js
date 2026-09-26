@@ -9,9 +9,9 @@ const colorExtractorContext = colorExtractorCanvas.getContext('2d')
 const textColorNN = require('ext/textColor/textColor.js')
 
 const defaultColors = {
-  private: ['rgb(46, 12, 58)', '#f5d0fe'],
-  lightMode: ['rgb(253, 244, 255)', '#3b0764'],
-  darkMode: ['rgb(26, 10, 34)', '#f5d0fe']
+  private: ['rgb(28, 6, 38)', '#e879f9'],
+  lightMode: ['rgb(44, 12, 56)', '#fdf4ff'],
+  darkMode: ['rgb(22, 6, 28)', '#fae8ff']
 }
 
 function getHours () {
@@ -168,7 +168,9 @@ function setColor (bg, fg, isLowContrast) {
     textElements[i].style.color = fg
   }
 
-  if (fg === 'white') {
+  const rgb = getColorFromString(bg)
+  const isDark = getLuminance(rgb) < 170
+  if (isDark || fg === 'white' || (typeof fg === 'string' && fg.startsWith('#f'))) {
     document.body.classList.add('dark-theme')
   } else {
     document.body.classList.remove('dark-theme')

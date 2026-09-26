@@ -16,17 +16,20 @@
   --shadow-lg: 0 14px 34px -4px rgba(0, 0, 0, 0.15), 0 4px 14px -2px rgba(0, 0, 0, 0.08);
   --shadow-float: 0 20px 48px -8px rgba(0, 0, 0, 0.22), 0 8px 24px -4px rgba(0, 0, 0, 0.12);
 
-  --color-magenta: #c026d3;
-  --color-magenta-hover: #a21caf;
-  --color-magenta-subtle: rgba(192, 38, 211, 0.14);
+  --color-magenta-dark: #701a75;
+  --color-magenta: #a21caf;
+  --color-magenta-neon: #d946ef;
+  --color-magenta-subtle: rgba(162, 28, 175, 0.22);
   --color-purple: #7c3aed;
   --color-purple-hover: #6d28d9;
-  --color-purple-subtle: rgba(124, 58, 237, 0.14);
-  --color-accent: #7c3aed;
-  --color-accent-hover: #6d28d9;
-  --color-accent-subtle: rgba(124, 58, 237, 0.14);
-  --color-danger: #ef4444;
-  --color-danger-subtle: rgba(239, 68, 68, 0.14);
+  --color-purple-neon: #a855f7;
+  --color-purple-subtle: rgba(124, 58, 237, 0.22);
+  --color-cyan-neon: #00f5d4;
+  --color-accent: #c026d3;
+  --color-accent-hover: #d946ef;
+  --color-accent-subtle: rgba(192, 38, 211, 0.22);
+  --color-danger: #f43f5e;
+  --color-danger-subtle: rgba(244, 63, 94, 0.2);
 }
 
 * {
@@ -68,24 +71,25 @@ button {
 
 body,
 html {
-  background-color: #fdf4ff;
-  color: #3b0764;
+  background-color: #240a30;
+  color: #fae8ff;
   height: 100%;
   overflow: hidden;
   -webkit-user-select: none;
 }
 
 body.dark-mode {
-  --color-magenta: #e879f9;
-  --color-magenta-hover: #f0abfc;
-  --color-magenta-subtle: rgba(232, 121, 249, 0.2);
+  --color-magenta-dark: #581c87;
+  --color-magenta: #c026d3;
+  --color-magenta-neon: #e879f9;
+  --color-magenta-subtle: rgba(192, 38, 211, 0.25);
   --color-purple: #a855f7;
   --color-purple-hover: #c084fc;
-  --color-purple-subtle: rgba(168, 85, 247, 0.22);
-  --color-accent: #a855f7;
-  --color-accent-hover: #c084fc;
-  --color-accent-subtle: rgba(168, 85, 247, 0.22);
-  background-color: #1a0a22;
+  --color-purple-subtle: rgba(168, 85, 247, 0.25);
+  --color-accent: #c026d3;
+  --color-accent-hover: #e879f9;
+  --color-accent-subtle: rgba(192, 38, 211, 0.25);
+  background-color: #14051a;
   color: #fae8ff;
 }
 
@@ -147,11 +151,13 @@ a:hover {
   color: var(--color-accent);
 }
 
+.dark-theme input,
+.dark-theme textarea,
 .dark-mode input,
 .dark-mode textarea {
-  background-color: rgba(48, 18, 62, 0.85);
+  background-color: rgba(36, 10, 48, 0.9);
   color: #fae8ff;
-  border-color: rgba(192, 38, 211, 0.25);
+  border-color: rgba(162, 28, 175, 0.4);
 }
 
 /* styled scrollbars */

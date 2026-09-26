@@ -40,8 +40,9 @@ body.dark-mode #overlay {
   padding: 1.5em 1.75em;
   box-shadow: var(--shadow-float);
   border-radius: var(--radius-xl);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #ffffff;
+  border: 1px solid rgba(162, 28, 175, 0.4);
+  background: #240a30;
+  color: #fae8ff;
   animation: modal-appear 0.22s var(--ease-snappy);
 }
 
@@ -57,9 +58,10 @@ body.dark-mode #overlay {
 }
 
 .dark-mode .modal {
-  background-color: rgb(30, 35, 43);
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #f1f5f9;
+  background-color: #16041e;
+  border-color: rgba(162, 28, 175, 0.5);
+  color: #fae8ff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 24px rgba(162, 28, 175, 0.25);
 }
 
 .modal-close-button {
@@ -77,14 +79,13 @@ body.dark-mode #overlay {
   transition: all var(--duration-fast) var(--ease-snappy);
 }
 
-.modal-close-button:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.08);
-  transform: scale(1.08);
-}
-
+.modal-close-button:hover,
 .dark-mode .modal-close-button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  opacity: 1;
+  background: rgba(162, 28, 175, 0.25);
+  color: #e879f9;
+  box-shadow: 0 0 8px rgba(217, 70, 239, 0.3);
+  transform: scale(1.08);
 }
 
 .modal-title {

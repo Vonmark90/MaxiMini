@@ -80,15 +80,13 @@ const sessionRestore = {
     */
 
     try {
-      // first run, show the tour
+      // first run
       if (!savedStringData) {
         tasks.setSelected(tasks.add()) // create a new task
 
-        var newTab = tasks.getSelected().tabs.add({
-            url: 'https://minbrowser.github.io/min/tour'
-        })
+        var newTab = tasks.getSelected().tabs.add()
         browserUI.addTab(newTab, {
-         enterEditMode: false
+          enterEditMode: false
         })
         return
       }

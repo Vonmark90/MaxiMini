@@ -432,12 +432,6 @@ function buildAppMenu (options = {}) {
           }
         },
         {
-          label: l('appMenuTakeTour'),
-          click: function () {
-            openTabInWindow('https://minbrowser.github.io/min/tour/')
-          }
-        },
-        {
           label: l('appMenuViewGithub'),
           click: function () {
             openTabInWindow('https://github.com/minbrowser/min')

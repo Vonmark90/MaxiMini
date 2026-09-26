@@ -3,10 +3,10 @@
   position: absolute;
   bottom: 0px;
   left: 0px;
-  background: #fdf4ff;
+  background: #240a30;
   width: 100%;
-  border-top: 1px solid rgba(192, 38, 211, 0.2);
-  color: #3b0764;
+  border-top: 1px solid rgba(162, 28, 175, 0.35);
+  color: #fae8ff;
   padding: 0 0.5em;
   z-index: 9;
 }
@@ -16,18 +16,15 @@ body.task-overlay-is-shown #download-bar {
 }
 
 .dark-mode #download-bar {
-  background: #1a0a22;
+  background: #14051a;
   color: #fae8ff;
-  border-top-color: rgba(192, 38, 211, 0.3);
+  border-top-color: rgba(162, 28, 175, 0.45);
 }
 
-#download-bar button:hover {
-  opacity: 1;
-  background-color: var(--color-purple-subtle);
-}
-
+#download-bar button:hover,
 .dark-mode #download-bar button:hover {
-  background-color: var(--color-purple-subtle);
+  background-color: rgba(162, 28, 175, 0.25);
+  color: #e879f9;
 }
 
 #download-container {
@@ -104,7 +101,8 @@ body.task-overlay-is-shown #download-bar {
   width: calc(100% - 1em);
   height: 4px;
   margin-top: 0.33em;
-  background: linear-gradient(90deg, #d946ef, #8b5cf6);
+  background: linear-gradient(90deg, #00f5d4 0%, #7c3aed 35%, #d946ef 70%, #ff2a85 100%);
+  box-shadow: 0 0 10px rgba(217, 70, 239, 0.8);
   border-radius: 2px;
   position: absolute;
   top: calc(-0.5em + 2px);
@@ -114,7 +112,8 @@ body.task-overlay-is-shown #download-bar {
 }
 
 .dark-mode .download-progress {
-  background: linear-gradient(90deg, #e879f9, #a855f7);
+  background: linear-gradient(90deg, #00f5d4 0%, #7c3aed 35%, #d946ef 70%, #ff2a85 100%);
+  box-shadow: 0 0 10px rgba(217, 70, 239, 0.8);
 }
 
 .download-progress[hidden] {
