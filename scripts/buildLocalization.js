@@ -47,7 +47,7 @@ function buildLocalization () {
     languages[obj.identifier] = obj
   })
 
-  let fileContents = 'var languages = ' + JSON.stringify(languages) + ';\n'
+  let fileContents = 'var languages = JSON.parse(' + JSON.stringify(JSON.stringify(languages)) + ');\n'
 
   // add contents of localization.js (helper functions, ...)
 

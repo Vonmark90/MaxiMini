@@ -62,6 +62,8 @@ if (isDevelopmentMode) {
 
 // workaround for flicker when focusing app (https://github.com/electron/electron/issues/17942)
 app.commandLine.appendSwitch('disable-backgrounding-occluded-windows', 'true')
+// hardware-accelerated out-of-process rasterization for faster UI rendering
+app.commandLine.appendSwitch('enable-features', 'CanvasOopRasterization')
 
 var userDataPath = app.getPath('userData')
 

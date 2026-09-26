@@ -149,40 +149,53 @@ require('navbar/tabContextMenu.js').initialize()
 require('navbar/tabActivity.js').initialize()
 require('navbar/tabColor.js').initialize()
 require('navbar/navigationButtons.js').initialize()
-require('downloadManager.js').initialize()
 require('webviewMenu.js').initialize()
 require('contextMenu.js').initialize()
 require('menuRenderer.js').initialize()
 require('defaultKeybindings.js').initialize()
-require('pdfViewer.js').initialize()
-require('autofillSetup.js').initialize()
-require('passwordManager/passwordManager.js').initialize()
-require('passwordManager/passwordCapture.js').initialize()
-require('passwordManager/passwordViewer.js').initialize()
 require('util/theme.js').initialize()
-require('userscripts.js').initialize()
-require('statistics.js').initialize()
 require('taskOverlay/taskOverlay.js').initialize()
-require('sessionRestore.js').initialize()
-require('bookmarkConverter.js').initialize()
 require('newTabPage.js').initialize()
-require('macHandoff.js').initialize()
+require('sessionRestore.js').initialize()
 
-// default searchbar plugins
-
-require('searchbar/placesPlugin.js').initialize()
-require('searchbar/instantAnswerPlugin.js').initialize()
-require('searchbar/bangsPlugin.js').initialize()
-require('searchbar/customBangs.js').initialize()
-require('searchbar/searchSuggestionsPlugin.js').initialize()
-require('searchbar/placeSuggestionsPlugin.js').initialize()
-require('searchbar/updateNotifications.js').initialize()
-require('searchbar/restoreTaskPlugin.js').initialize()
-require('searchbar/bookmarkManager.js').initialize()
-require('searchbar/historyViewer.js').initialize()
-require('searchbar/developmentModeNotification.js').initialize()
-require('searchbar/shortcutButtons.js').initialize()
-require('searchbar/calculatorPlugin.js').initialize()
-
-// once everything's loaded, start the session
+// Start the session and restore tabs immediately for fastest first paint
 require('sessionRestore.js').restore()
+
+// Deferred initialization of non-critical background modules & searchbar plugins
+let deferredInitialized = false
+window.initDeferredModules = function () {
+  if (deferredInitialized) return
+  deferredInitialized = true
+
+  require('downloadManager.js').initialize()
+  require('autofillSetup.js').initialize()
+  require('passwordManager/passwordManager.js').initialize()
+  require('passwordManager/passwordCapture.js').initialize()
+  require('passwordManager/passwordViewer.js').initialize()
+  require('pdfViewer.js').initialize()
+  require('userscripts.js').initialize()
+  require('statistics.js').initialize()
+  require('bookmarkConverter.js').initialize()
+  require('macHandoff.js').initialize()
+
+  // default searchbar plugins
+  require('searchbar/placesPlugin.js').initialize()
+  require('searchbar/instantAnswerPlugin.js').initialize()
+  require('searchbar/bangsPlugin.js').initialize()
+  require('searchbar/customBangs.js').initialize()
+  require('searchbar/searchSuggestionsPlugin.js').initialize()
+  require('searchbar/placeSuggestionsPlugin.js').initialize()
+  require('searchbar/updateNotifications.js').initialize()
+  require('searchbar/restoreTaskPlugin.js').initialize()
+  require('searchbar/bookmarkManager.js').initialize()
+  require('searchbar/historyViewer.js').initialize()
+  require('searchbar/developmentModeNotification.js').initialize()
+  require('searchbar/shortcutButtons.js').initialize()
+  require('searchbar/calculatorPlugin.js').initialize()
+}
+
+if (window.requestIdleCallback) {
+  window.requestIdleCallback(window.initDeferredModules, { timeout: 150 })
+} else {
+  setTimeout(window.initDeferredModules, 20)
+}

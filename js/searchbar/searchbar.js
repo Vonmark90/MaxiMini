@@ -20,6 +20,9 @@ var searchbar = {
   associatedInput: null,
   events: new EventEmitter(),
   show: function (associatedInput) {
+    if (typeof window.initDeferredModules === 'function') {
+      window.initDeferredModules()
+    }
     searchbar.el.hidden = false
     searchbar.associatedInput = associatedInput
   },
