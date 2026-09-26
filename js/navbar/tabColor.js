@@ -9,9 +9,9 @@ const colorExtractorContext = colorExtractorCanvas.getContext('2d')
 const textColorNN = require('ext/textColor/textColor.js')
 
 const defaultColors = {
-  private: ['rgb(58, 44, 99)', 'white'],
-  lightMode: ['rgb(255, 255, 255)', 'black'],
-  darkMode: ['rgb(33, 37, 43)', 'white']
+  private: ['rgb(46, 12, 58)', '#f5d0fe'],
+  lightMode: ['rgb(253, 244, 255)', '#3b0764'],
+  darkMode: ['rgb(26, 10, 34)', '#f5d0fe']
 }
 
 function getHours () {
@@ -181,7 +181,7 @@ function setColor (bg, fg, isLowContrast) {
 }
 
 const tabColor = {
-  useSiteTheme: true,
+  useSiteTheme: false,
   initialize: function () {
     webviews.bindEvent('page-favicon-updated', function (tabId, favicons) {
       tabColor.updateFromImage(favicons, tabId, function () {

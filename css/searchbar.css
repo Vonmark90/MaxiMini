@@ -7,28 +7,28 @@
   width: min(840px, calc(100% - 32px));
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(28px) saturate(190%);
-  color: #111827;
+  color: #3b0764;
   padding: 8px 12px;
   -webkit-user-select: none;
   max-height: calc(100% - 110px);
   overflow-y: auto;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.2), 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(192, 38, 211, 0.22);
+  box-shadow: 0 20px 48px -6px rgba(74, 4, 78, 0.16), 0 8px 20px -4px rgba(74, 4, 78, 0.08);
   border-radius: var(--radius-lg);
   transition: all var(--duration-fast) var(--ease-snappy);
 }
 
 .dark-theme #searchbar,
 .dark-mode #searchbar {
-  background: rgba(26, 30, 38, 0.96);
-  color: #f1f5f9;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 56px -8px rgba(0, 0, 0, 0.5), 0 10px 24px -4px rgba(0, 0, 0, 0.35);
+  background: rgba(28, 10, 36, 0.96);
+  color: #fae8ff;
+  border: 1px solid rgba(192, 38, 211, 0.35);
+  box-shadow: 0 24px 56px -8px rgba(0, 0, 0, 0.7), 0 10px 24px -4px rgba(139, 92, 246, 0.3);
 }
 
 body:not(.is-ntp) #searchbar,
 body.ntp-has-background #searchbar {
-  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.2), 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 48px -6px rgba(74, 4, 78, 0.16), 0 8px 20px -4px rgba(74, 4, 78, 0.08);
 }
 
 .searchbar-plugin-container {
@@ -41,7 +41,8 @@ body.ntp-has-background #searchbar {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 0.8em 0.85em 0.35em 0.85em;
-  opacity: 0.55;
+  color: var(--color-purple);
+  opacity: 0.85;
   cursor: default;
 }
 
@@ -49,7 +50,7 @@ body.ntp-has-background #searchbar {
   position: absolute;
   right: 0.5em;
   top: 0.5em;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(192, 38, 211, 0.2);
   padding: 0.3em 0.6em;
   border-radius: var(--radius-sm);
   opacity: 0.75;
@@ -59,15 +60,17 @@ body.ntp-has-background #searchbar {
 }
 
 .searchbar-floating-button:hover {
-  background-color: rgba(0, 0, 0, 0.06);
+  background-color: var(--color-purple-subtle);
+  color: var(--color-purple);
   opacity: 1;
 }
 
 .dark-theme .searchbar-floating-button {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(192, 38, 211, 0.35);
 }
 .dark-theme .searchbar-floating-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-purple-subtle);
+  color: var(--color-purple);
   opacity: 1;
 }
 
