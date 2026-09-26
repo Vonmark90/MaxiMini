@@ -20,8 +20,8 @@ function toArch (platform) {
 
 require('./createPackage.js')('mac', { arch: toArch(platform) }).then(function (packagePath) {
   const appBundle = (packageFile.productName || 'Min') + '.app'
-  if (platform === 'arm64') {
-    execSync('codesign -s - -a arm64 -f --deep ' + path.join(packagePath, appBundle))
+  if (process.platform === 'darwin') {
+    execSync('codesign -s - -f --deep ' + path.join(packagePath, appBundle))
   }
 
   /* create output directory if it doesn't exist */
