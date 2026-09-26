@@ -80,10 +80,12 @@ body.dark-mode.is-edit-mode #tab-editor {
   line-height: 32px;
   background: none;
   -webkit-appearance: none;
+  appearance: none;
   border: none;
   color: inherit;
   outline: none;
   -webkit-user-select: auto;
+  user-select: auto;
   -webkit-app-region: no-drag;
   padding: 0;
 }

@@ -96,6 +96,7 @@
 
 .tag-edit-area .tag-input {
   -webkit-appearance: none;
+  appearance: none;
   padding: 0.35em 0.5em;
   border-radius: 3px;
   background: transparent;

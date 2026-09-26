@@ -5,6 +5,7 @@
   transition: 0.2s background-color;
   width: 100%;
   -webkit-user-select: none;
+  user-select: none;
   position: relative;
   outline: none;
   z-index: 2;
