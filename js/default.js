@@ -161,7 +161,22 @@ require('sessionRestore.js').initialize()
 // Start the session and restore tabs immediately for fastest first paint
 require('sessionRestore.js').restore()
 
-// Deferred initialization of non-critical background modules & searchbar plugins
+// Initialize searchbar plugins immediately so address bar search works instantly
+require('searchbar/placesPlugin.js').initialize()
+require('searchbar/instantAnswerPlugin.js').initialize()
+require('searchbar/bangsPlugin.js').initialize()
+require('searchbar/customBangs.js').initialize()
+require('searchbar/searchSuggestionsPlugin.js').initialize()
+require('searchbar/placeSuggestionsPlugin.js').initialize()
+require('searchbar/updateNotifications.js').initialize()
+require('searchbar/restoreTaskPlugin.js').initialize()
+require('searchbar/bookmarkManager.js').initialize()
+require('searchbar/historyViewer.js').initialize()
+require('searchbar/developmentModeNotification.js').initialize()
+require('searchbar/shortcutButtons.js').initialize()
+require('searchbar/calculatorPlugin.js').initialize()
+
+// Deferred initialization of non-critical background modules
 let deferredInitialized = false
 window.initDeferredModules = function () {
   if (deferredInitialized) return
@@ -177,21 +192,6 @@ window.initDeferredModules = function () {
   require('statistics.js').initialize()
   require('bookmarkConverter.js').initialize()
   require('macHandoff.js').initialize()
-
-  // default searchbar plugins
-  require('searchbar/placesPlugin.js').initialize()
-  require('searchbar/instantAnswerPlugin.js').initialize()
-  require('searchbar/bangsPlugin.js').initialize()
-  require('searchbar/customBangs.js').initialize()
-  require('searchbar/searchSuggestionsPlugin.js').initialize()
-  require('searchbar/placeSuggestionsPlugin.js').initialize()
-  require('searchbar/updateNotifications.js').initialize()
-  require('searchbar/restoreTaskPlugin.js').initialize()
-  require('searchbar/bookmarkManager.js').initialize()
-  require('searchbar/historyViewer.js').initialize()
-  require('searchbar/developmentModeNotification.js').initialize()
-  require('searchbar/shortcutButtons.js').initialize()
-  require('searchbar/calculatorPlugin.js').initialize()
 }
 
 if (window.requestIdleCallback) {

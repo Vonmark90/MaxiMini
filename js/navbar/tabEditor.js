@@ -29,11 +29,11 @@ const tabEditor = {
       contentBlockingToggle.update(tabId, tabEditor.contentBlockingToggle)
     }
 
-    tabEditor.updateSecurity(tabs.get(tabId))
+    var currentTab = tabs.get(tabId)
+    tabEditor.updateSecurity(currentTab)
 
     document.body.classList.add('is-edit-mode')
 
-    var currentTab = tabs.get(tabId)
     var currentURL = currentTab ? urlParser.getSourceURL(currentTab.url) : ''
     if (currentURL === 'min://newtab') {
       currentURL = ''
@@ -52,7 +52,7 @@ const tabEditor = {
       if (editingValue) {
         searchbar.showResults(editingValue, null)
       } else {
-        searchbar.showResults('', null)
+        searchbar.showResults(tabEditor.input.value, null)
       }
     }
   },
@@ -64,8 +64,6 @@ const tabEditor = {
 
     document.body.classList.remove('is-edit-mode')
     webviews.hidePlaceholder('editMode')
-
-    tabEditor.update(tabs.getSelected())
   },
   updateSecurity: function (tab) {
     if (!tabEditor.securityIcon) {
@@ -134,15 +132,27 @@ const tabEditor = {
 
     keyboardNavigationHelper.addToGroup('searchbar', tabEditor.container)
 
+    let selectAllOnNextMouseUp = false
+
     tabEditor.input.addEventListener('focus', function () {
       if (!tabEditor.isShown) {
+        selectAllOnNextMouseUp = true
         tabEditor.show(tabs.getSelected(), null, true)
+      }
+    })
+
+    tabEditor.input.addEventListener('mouseup', function (e) {
+      if (selectAllOnNextMouseUp) {
+        selectAllOnNextMouseUp = false
+        e.preventDefault()
+        tabEditor.input.select()
       }
     })
 
     tabEditor.input.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         tabEditor.hide()
+        tabEditor.update(tabs.getSelected())
         webviews.focus()
         e.preventDefault()
       }
@@ -150,13 +160,11 @@ const tabEditor = {
 
     tabEditor.input.addEventListener('input', function (e) {
       if (e.isComposing) {
-        // This input will instead be handled during the compositionend event
         return
       }
 
-      // handles all inputs except for the case where the selection is moved (since we call preventDefault() there)
       searchbar.showResults(this.value, {
-        isDeletion: e.inputType.includes('delete')
+        isDeletion: e.inputType ? e.inputType.includes('delete') : false
       })
     })
 
@@ -167,7 +175,6 @@ const tabEditor = {
     tabEditor.input.addEventListener('keypress', function (e) {
       if (e.keyCode === 13) { // return key pressed; update the url
         if (this.getAttribute('data-autocomplete-text') && this.getAttribute('data-autocomplete-text').toLowerCase() === this.value.toLowerCase()) {
-          // The original autocompletion can contain additional information, such as a protocol or different capitalization than what was typed
           searchbar.openURL(this.getAttribute('data-autocomplete-ref') || this.getAttribute('data-autocomplete-text'), e)
         } else {
           searchbar.openURL(this.value, e)
@@ -175,7 +182,6 @@ const tabEditor = {
         e.preventDefault()
       }
 
-      // on keydown, if the autocomplete result doesn't change, we move the selection instead of regenerating it to avoid race conditions with typing. Adapted from https://github.com/patrickburke/jquery.inlineComplete
       if (e.key && this.selectionEnd === this.value.length && this.value[this.selectionStart] === e.key) {
         this.selectionStart += 1
         e.preventDefault()
@@ -185,6 +191,7 @@ const tabEditor = {
 
     document.getElementById('webviews').addEventListener('click', function () {
       tabEditor.hide()
+      tabEditor.update(tabs.getSelected())
     })
 
     tasks.on('tab-selected', function (id) {

@@ -270,9 +270,14 @@ ipc.on('set-file-view', function (e, data) {
 })
 
 searchbar.events.on('url-selected', function (data) {
-  var searchbarQuery = searchEngine.getSearch(urlParser.parse(data.url))
+  var parsedURL = urlParser.parse(data.url)
+  var searchbarQuery = searchEngine.getSearch(parsedURL)
   if (searchbarQuery) {
     statistics.incrementValue('searchCounts.' + searchbarQuery.engine)
+  }
+
+  if (tabEditor.input) {
+    tabEditor.input.value = urlParser.getSourceURL(parsedURL)
   }
 
   webviews.update(tabs.getSelected(), data.url)
