@@ -137,17 +137,17 @@ function handleCommandLineArguments (argv) {
       if (arg && arg.toLowerCase() !== __dirname.toLowerCase()) {
         // URL
         if (arg.indexOf('://') !== -1) {
-          sendIPCToWindow(windows.getCurrent(), 'addTab', {
+          sendIPCToWindow(windows.getCurrent(), 'open-in-current-tab', {
             url: arg
           })
         } else if (idx > 0 && argv[idx - 1] === '-s') {
           // search
-          sendIPCToWindow(windows.getCurrent(), 'addTab', {
+          sendIPCToWindow(windows.getCurrent(), 'open-in-current-tab', {
             url: arg
           })
         } else if (/\.(m?ht(ml)?|pdf)$/.test(arg) && fs.existsSync(arg)) {
           // local files (.html, .mht, mhtml, .pdf)
-          sendIPCToWindow(windows.getCurrent(), 'addTab', {
+          sendIPCToWindow(windows.getCurrent(), 'open-in-current-tab', {
             url: 'file://' + path.resolve(arg)
           })
         }
@@ -393,7 +393,7 @@ app.on('ready', function () {
 
 app.on('open-url', function (e, url) {
   if (appIsReady) {
-    sendIPCToWindow(windows.getCurrent(), 'addTab', {
+    sendIPCToWindow(windows.getCurrent(), 'open-in-current-tab', {
       url: url
     })
   } else {
@@ -405,7 +405,7 @@ app.on('open-url', function (e, url) {
 app.on('continue-activity', function(e, type, userInfo, details) {
   if (type === 'NSUserActivityTypeBrowsingWeb' && details.webpageURL) {
     e.preventDefault()
-    sendIPCToWindow(windows.getCurrent(), 'addTab', {
+    sendIPCToWindow(windows.getCurrent(), 'open-in-current-tab', {
       url: details.webpageURL
     })
   }

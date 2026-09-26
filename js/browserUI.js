@@ -248,15 +248,13 @@ webviews.bindEvent('did-create-popup', function (tabId, popupId, initialURL) {
 })
 
 webviews.bindEvent('new-tab', function (tabId, url, openInForeground) {
-  var newTab = tabs.add({
-    url: url,
-    private: tabs.get(tabId).private // inherit private status from the current tab
-  })
-
-  addTab(newTab, {
-    enterEditMode: false,
-    openInBackground: !settings.get('openTabsInForeground') && !openInForeground
-  })
+  var targetTabId = tabId || tabs.getSelected()
+  if (targetTabId) {
+    if (tabs.getSelected() !== targetTabId) {
+      switchToTab(targetTabId)
+    }
+    webviews.update(targetTabId, url)
+  }
 })
 
 webviews.bindIPC('close-window', function (tabId, args) {
@@ -277,19 +275,8 @@ searchbar.events.on('url-selected', function (data) {
     statistics.incrementValue('searchCounts.' + searchbarQuery.engine)
   }
 
-  if (data.background) {
-    var newTab = tabs.add({
-      url: data.url,
-      private: tabs.get(tabs.getSelected()).private
-    })
-    addTab(newTab, {
-      enterEditMode: false,
-      openInBackground: true
-    })
-  } else {
-    webviews.update(tabs.getSelected(), data.url)
-    tabEditor.hide()
-  }
+  webviews.update(tabs.getSelected(), data.url)
+  tabEditor.hide()
 })
 
 tabBar.events.on('tab-selected', function (id) {

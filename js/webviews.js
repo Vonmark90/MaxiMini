@@ -158,10 +158,10 @@ const webviews = {
         height: window.innerHeight
       }
     } else {
-      if (!hasSeparateTitlebar && (window.platformType === 'linux' || window.platformType === 'windows') && !windowIsMaximized && !windowIsFullscreen) {
-        var navbarHeight = 48
-      } else {
-        var navbarHeight = 36
+      var navbarEl = document.getElementById('navbar')
+      var navbarHeight = navbarEl && navbarEl.offsetHeight > 0 ? navbarEl.offsetHeight : 78
+      if (document.documentElement) {
+        document.documentElement.style.setProperty('--navbar-height', navbarHeight + 'px')
       }
 
       const viewMargins = webviews.viewMargins

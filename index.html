@@ -113,40 +113,58 @@
       class="theme-background-color theme-text-color windowDragHandle"
       tabindex="-1"
     >
-    <div id="mac-window-drag-area"></div>
-      <button
-        id="menu-button"
-        class="navbar-action-button i carbon:overflow-menu-vertical"
-        data-label="openMenu"
-        tabindex="-1"
-      ></button>
-      <div id="toolbar-navigation-buttons" hidden>
-          <button
-          id="back-button"
-          class="navbar-action-button i carbon:chevron-left"
-          data-label="goBack"
-          tabindex="-1"
-        ></button>
-        <button
-        id="forward-button"
-        class="navbar-action-button i carbon:chevron-right"
-        data-label="goForward"
-        tabindex="-1"
-      ></button>
-      </div>
-      <div id="tabs">
-        <div id="tab-editor" hidden>
-          <input id="tab-editor-input" spellcheck="false" />
+      <div id="tab-strip-toolbar">
+        <div id="mac-window-drag-area"></div>
+        <div id="tabs">
+          <div id="tabs-inner" role="tablist" class="has-thin-scrollbar"></div>
         </div>
-        <div id="tabs-inner" role="tablist" class="has-thin-scrollbar"></div>
+        <div class="tab-strip-right-actions">
+          <button
+            id="add-tab-button"
+            class="navbar-action-button i carbon:add"
+            data-label="newTabAction"
+            tabindex="-1"
+          ></button>
+        </div>
       </div>
-      <div class="navbar-right-actions">
-        <button
-          id="add-tab-button"
-          class="navbar-action-button i carbon:add"
-          data-label="newTabAction"
-          tabindex="-1"
-        ></button>
+
+      <div id="navigation-toolbar">
+        <div id="toolbar-navigation-buttons">
+          <button
+            id="back-button"
+            class="navbar-action-button i carbon:chevron-left"
+            data-label="goBack"
+            tabindex="-1"
+          ></button>
+          <button
+            id="forward-button"
+            class="navbar-action-button i carbon:chevron-right"
+            data-label="goForward"
+            tabindex="-1"
+          ></button>
+          <button
+            id="reload-button"
+            class="navbar-action-button i carbon:renew"
+            data-label="reload"
+            tabindex="-1"
+          ></button>
+        </div>
+
+        <div id="tab-editor">
+          <div id="address-bar-security">
+            <i id="address-bar-security-icon" class="i carbon:search"></i>
+          </div>
+          <input id="tab-editor-input" spellcheck="false" autocomplete="off" />
+        </div>
+
+        <div class="navigation-toolbar-right-actions">
+          <button
+            id="menu-button"
+            class="navbar-action-button i carbon:overflow-menu-vertical"
+            data-label="openMenu"
+            tabindex="-1"
+          ></button>
+        </div>
       </div>
     </div>
 

@@ -83,6 +83,12 @@ module.exports = {
       })
     })
 
+    ipc.on('open-in-current-tab', function (e, data) {
+      if (data && data.url) {
+        webviews.update(tabs.getSelected(), data.url)
+      }
+    })
+
     ipc.on('saveCurrentPage', async function () {
       var currentTab = tabs.get(tabs.getSelected())
 

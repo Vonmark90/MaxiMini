@@ -9,7 +9,9 @@ var contentBlockingToggle = require('navbar/contentBlockingToggle.js')
 const tabEditor = {
   container: document.getElementById('tab-editor'),
   input: document.getElementById('tab-editor-input'),
+  securityIcon: document.getElementById('address-bar-security-icon'),
   star: null,
+  contentBlockingToggle: null,
   isShown: false,
   show: function (tabId, editingValue, showSearchbar) {
     /* Edit mode is not available in modal mode. */
@@ -17,27 +19,31 @@ const tabEditor = {
       return
     }
 
-    tabEditor.container.hidden = false
+    tabId = tabId || tabs.getSelected()
     tabEditor.isShown = true
 
-    bookmarkStar.update(tabId, tabEditor.star)
-    contentBlockingToggle.update(tabId, tabEditor.contentBlockingToggle)
+    if (tabEditor.star) {
+      bookmarkStar.update(tabId, tabEditor.star)
+    }
+    if (tabEditor.contentBlockingToggle) {
+      contentBlockingToggle.update(tabId, tabEditor.contentBlockingToggle)
+    }
 
-    webviews.requestPlaceholder('editMode')
+    tabEditor.updateSecurity(tabs.get(tabId))
 
     document.body.classList.add('is-edit-mode')
 
-    var currentURL = urlParser.getSourceURL(tabs.get(tabId).url)
+    var currentTab = tabs.get(tabId)
+    var currentURL = currentTab ? urlParser.getSourceURL(currentTab.url) : ''
     if (currentURL === 'min://newtab') {
       currentURL = ''
     }
 
-    tabEditor.input.value = editingValue || currentURL
+    tabEditor.input.value = editingValue !== undefined && editingValue !== null ? editingValue : currentURL
     tabEditor.input.focus()
     if (!editingValue) {
       tabEditor.input.select()
     }
-    // https://github.com/minbrowser/min/discussions/1506
     tabEditor.input.scrollLeft = 0
 
     searchbar.show(tabEditor.input)
@@ -49,40 +55,75 @@ const tabEditor = {
         searchbar.showResults('', null)
       }
     }
-
-    /* animation */
-    if (tabs.count() > 1) {
-      requestAnimationFrame(function () {
-        var item = document.querySelector(`.tab-item[data-tab="${tabId}"]`)
-        var originCoordinates = item.getBoundingClientRect()
-
-        var finalCoordinates = document.querySelector('#tabs').getBoundingClientRect()
-
-        var translateX = Math.min(Math.round(originCoordinates.x - finalCoordinates.x) * 0.45, window.innerWidth)
-
-        tabEditor.container.style.opacity = 0
-        tabEditor.container.style.transform = `translateX(${translateX}px)`
-        requestAnimationFrame(function () {
-          tabEditor.container.style.transition = '0.135s all'
-          tabEditor.container.style.opacity = 1
-          tabEditor.container.style.transform = ''
-        })
-      })
-    }
   },
   hide: function () {
-    tabEditor.container.hidden = true
-    tabEditor.container.removeAttribute('style')
     tabEditor.isShown = false
 
     tabEditor.input.blur()
     searchbar.hide()
 
     document.body.classList.remove('is-edit-mode')
-
     webviews.hidePlaceholder('editMode')
+
+    tabEditor.update(tabs.getSelected())
+  },
+  updateSecurity: function (tab) {
+    if (!tabEditor.securityIcon) {
+      tabEditor.securityIcon = document.getElementById('address-bar-security-icon')
+    }
+    if (!tabEditor.securityIcon) {
+      return
+    }
+
+    var currentURL = tab ? tab.url : ''
+    var isNewTab = !currentURL || currentURL === '' || currentURL === urlParser.parse('min://newtab')
+
+    tabEditor.securityIcon.className = 'i'
+    if (isNewTab) {
+      tabEditor.securityIcon.classList.add('carbon:search')
+      tabEditor.securityIcon.title = l('searchbarPlaceholder')
+    } else if (tab && tab.secure === true) {
+      tabEditor.securityIcon.classList.add('carbon:locked', 'secure-icon')
+      tabEditor.securityIcon.title = 'Connection is secure'
+    } else if (tab && tab.secure === false) {
+      tabEditor.securityIcon.classList.add('carbon:unlocked', 'insecure-icon')
+      tabEditor.securityIcon.title = l('connectionNotSecure')
+    } else {
+      tabEditor.securityIcon.classList.add('carbon:locked', 'secure-icon')
+      tabEditor.securityIcon.title = 'MaxiMini'
+    }
+  },
+  update: function (tabId) {
+    tabId = tabId || tabs.getSelected()
+    if (!tabId) {
+      return
+    }
+    var tab = tabs.get(tabId)
+    if (!tab) {
+      return
+    }
+
+    if (tabEditor.star) {
+      bookmarkStar.update(tabId, tabEditor.star)
+    }
+    if (tabEditor.contentBlockingToggle) {
+      contentBlockingToggle.update(tabId, tabEditor.contentBlockingToggle)
+    }
+
+    tabEditor.updateSecurity(tab)
+
+    // Only update the input text if the user is not actively editing
+    if (!tabEditor.isShown) {
+      var currentURL = urlParser.getSourceURL(tab.url)
+      if (currentURL === 'min://newtab' || !currentURL) {
+        tabEditor.input.value = ''
+      } else {
+        tabEditor.input.value = currentURL
+      }
+    }
   },
   initialize: function () {
+    tabEditor.container.hidden = false
     tabEditor.input.setAttribute('placeholder', l('searchbarPlaceholder'))
 
     tabEditor.star = bookmarkStar.create()
@@ -92,6 +133,20 @@ const tabEditor = {
     tabEditor.container.appendChild(tabEditor.contentBlockingToggle)
 
     keyboardNavigationHelper.addToGroup('searchbar', tabEditor.container)
+
+    tabEditor.input.addEventListener('focus', function () {
+      if (!tabEditor.isShown) {
+        tabEditor.show(tabs.getSelected(), null, true)
+      }
+    })
+
+    tabEditor.input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        tabEditor.hide()
+        webviews.focus()
+        e.preventDefault()
+      }
+    })
 
     tabEditor.input.addEventListener('input', function (e) {
       if (e.isComposing) {
@@ -121,7 +176,6 @@ const tabEditor = {
       }
 
       // on keydown, if the autocomplete result doesn't change, we move the selection instead of regenerating it to avoid race conditions with typing. Adapted from https://github.com/patrickburke/jquery.inlineComplete
-
       if (e.key && this.selectionEnd === this.value.length && this.value[this.selectionStart] === e.key) {
         this.selectionStart += 1
         e.preventDefault()
@@ -131,6 +185,28 @@ const tabEditor = {
 
     document.getElementById('webviews').addEventListener('click', function () {
       tabEditor.hide()
+    })
+
+    tasks.on('tab-selected', function (id) {
+      tabEditor.update(id)
+    })
+
+    tasks.on('tab-updated', function (id, key) {
+      if (id === tabs.getSelected() && ['url', 'secure', 'title'].includes(key)) {
+        tabEditor.update(id)
+      }
+    })
+
+    webviews.bindEvent('did-navigate', function (tabId) {
+      if (tabId === tabs.getSelected()) {
+        tabEditor.update(tabId)
+      }
+    })
+
+    webviews.bindEvent('did-navigate-in-page', function (tabId) {
+      if (tabId === tabs.getSelected()) {
+        tabEditor.update(tabId)
+      }
     })
   }
 }
