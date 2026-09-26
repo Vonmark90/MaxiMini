@@ -11,11 +11,14 @@
   margin-bottom: 3px;
 }
 .bookmark-editor:not(.simplified) {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  padding: 0.5em;
 }
 .dark-theme .bookmark-editor:not(.simplified) {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .bookmark-editor .tag-edit-area {
@@ -33,27 +36,30 @@
 }
 
 .bookmark-editor .bookmark-url {
-  opacity: 0.66;
-  font-size: 0.95em;
+  opacity: 0.6;
+  font-size: 0.9em;
   margin-bottom: 0.55em;
 }
 
 #searchbar .tag {
   display: inline-block;
-  padding: 0.33em 0.5em;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.075);
-  border: 2px transparent solid;
-  opacity: 0.66;
+  padding: 0.25em 0.55em;
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  font-size: 0.85em;
+  opacity: 0.8;
+  transition: all var(--duration-fast) var(--ease-snappy);
 }
 .dark-theme #searchbar .tag {
-  background-color: rgba(255, 255, 255, 0.075);
+  background-color: rgba(255, 255, 255, 0.09);
+  color: #f1f5f9;
 }
 
 #searchbar .tag.suggested {
   background: transparent;
-  border-style: dotted;
-  border-color: rgba(0, 0, 0, 0.125);
+  border-style: dashed;
+  border-color: rgba(0, 0, 0, 0.2);
 }
 .dark-theme #searchbar .tag.suggested {
   border-color: rgba(255, 255, 255, 0.3);
@@ -65,14 +71,19 @@
 
 #searchbar .tag.selected {
   opacity: 1;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 #searchbar .tag:hover {
   border-color: transparent;
   background-color: rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 .dark-theme #searchbar .tag:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
 }
 
 #searchbar .tag:focus {

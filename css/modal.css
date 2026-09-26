@@ -11,7 +11,8 @@ body.is-modal-mode #overlay {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(8px);
   z-index: 1;
   pointer-events: none;
 }
@@ -25,51 +26,61 @@ body.is-modal-mode #overlay {
   pointer-events: all;
 }
 body.dark-mode #overlay {
-  background: rgba(33, 37, 43, 0.4);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .modal {
   width: 100vw;
-  max-width: 700px;
+  max-width: 640px;
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 9;
   transform: translate(-50%, -50%);
-  padding: 1em 1.25em;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  background: #fff;
-  animation: modal-appear 0.2s;
+  padding: 1.5em 1.75em;
+  box-shadow: var(--shadow-float);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  animation: modal-appear 0.22s var(--ease-snappy);
 }
 
 @keyframes modal-appear {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
+    transform: translate(-50%, -50%) scale(0.92);
   }
   100% {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
 .dark-mode .modal {
-  background-color: rgb(33, 37, 43);
+  background-color: rgb(30, 35, 43);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
 }
 
 .modal-close-button {
   position: absolute;
-  top: 0.66em;
-  right: 0.66em;
-  font-size: 1.66em !important;
-  opacity: 0.75;
-  border-radius: 50%;
-  padding: 0.05em;
+  top: 0.8em;
+  right: 0.8em;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25em !important;
+  opacity: 0.65;
+  border-radius: var(--radius-pill);
+  transition: all var(--duration-fast) var(--ease-snappy);
 }
 
 .modal-close-button:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.075);
+  background: rgba(0, 0, 0, 0.08);
+  transform: scale(1.08);
 }
 
 .dark-mode .modal-close-button:hover {
@@ -77,7 +88,9 @@ body.dark-mode #overlay {
 }
 
 .modal-title {
-  font-size: 1.5em;
+  font-size: 1.35em;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   margin-top: 0;
   margin-bottom: 1em;
   max-width: 90%;

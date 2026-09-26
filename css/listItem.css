@@ -2,9 +2,10 @@
   width: 100%;
   display: block;
   position: relative;
-  padding: 8px 9px 9px 9px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: 0.2s transform, 0.2s opacity;
+  transition: transform var(--duration-fast) var(--ease-snappy), background-color var(--duration-fast) var(--ease-snappy), opacity var(--duration-fast) var(--ease-snappy);
 }
 .searchbar-item.placeholder {
   height: 36px;
@@ -15,22 +16,26 @@
   display: block;
 }
 .searchbar-item:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.045);
+  transform: translateX(2px);
 }
 .searchbar-item:focus,
 .searchbar-item.fakefocus {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--color-accent-subtle);
   outline: none;
+  transform: translateX(3px);
 }
 .dark-theme .theme-background-color .searchbar-item:hover,
 .dark-mode .searchbar-item:hover {
   background-color: rgba(255, 255, 255, 0.08);
+  transform: translateX(2px);
 }
 .dark-theme .theme-background-color .searchbar-item:focus,
 .dark-theme .theme-background-color .searchbar-item.fakefocus,
 .dark-mode .searchbar-item:focus,
 .dark-mode .searchbar-item.fakefocus {
-  background-color: rgba(255, 255, 255, 0.14);
+  background-color: var(--color-accent-subtle);
+  transform: translateX(3px);
 }
 
 .searchbar-item .title {
@@ -68,29 +73,33 @@
 
 .searchbar-item .action-button {
   position: absolute;
-  width: 1.5em;
-  height: 1.5em;
-  right: 0.45em;
-  top: calc(0.16em + 1px);
+  width: 1.6em;
+  height: 1.6em;
+  right: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   outline: none;
   overflow: hidden;
   cursor: pointer;
   opacity: 0;
   background: transparent;
-  transition: 0.05s;
-  font-size: 1.2em;
+  transition: all var(--duration-fast) var(--ease-snappy);
+  font-size: 1.1em;
   color: currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* increase button click area
 :before is already used for icon */
 .searchbar-item .action-button:after {
   content: "";
-  width: 3em;
-  height: 2.5em;
-  top: -0.25em;
-  left: -0.75em;
+  width: 2.5em;
+  height: 2.2em;
+  top: -0.3em;
+  left: -0.45em;
   display: block;
   position: absolute;
 }
@@ -108,19 +117,23 @@ body.dark-mode.touch .searchbar-item .action-button {
 }
 .searchbar-item .action-button:hover,
 .searchbar-item .action-button:focus {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.05);
+  opacity: 1 !important;
+  background-color: rgba(0, 0, 0, 0.08);
+  transform: translateY(-50%) scale(1.08);
 }
 .dark-mode .searchbar-item .action-button:hover,
 .dark-mode .searchbar-item .action-button:focus {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.15);
+  opacity: 1 !important;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-50%) scale(1.08);
 }
 .searchbar-item .action-button:active {
-  background: rgba(0, 0, 0, 0.175);
+  background: rgba(0, 0, 0, 0.14);
+  transform: translateY(-50%) scale(0.96);
 }
 .dark-mode .searchbar-item .action-button:active {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-50%) scale(0.96);
 }
 
 /* alternative buttons - text, horizontal */
