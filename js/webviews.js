@@ -101,6 +101,12 @@ function setAudioMutedOnCreate (tabId, muted) {
 const webviews = {
   viewFullscreenMap: {}, // tabId, isFullscreen
   selectedId: null,
+  tabLastActive: {},
+  markTabActive: function (id) {
+    if (id) {
+      webviews.tabLastActive[id] = Date.now()
+    }
+  },
   placeholderRequests: [],
   asyncCallbacks: {},
   internalPages: {
@@ -218,6 +224,10 @@ const webviews = {
     })
   },
   setSelected: function (id, options) { // options.focus - whether to focus the view. Defaults to true.
+    if (webviews.selectedId && webviews.selectedId !== id) {
+      captureCurrentTab()
+    }
+    webviews.markTabActive(id)
     webviews.emitEvent('view-hidden', webviews.selectedId)
 
     webviews.selectedId = id
@@ -510,9 +520,36 @@ ipc.on('view-ipc', function (e, args) {
   })
 })
 
-setInterval(function () {
-  captureCurrentTab()
-}, 15000)
+// High-efficiency memory saver: hibernate background tabs inactive for > 15 minutes when multitasking
+const TAB_HIBERNATE_DELAY = 15 * 60 * 1000
+const MIN_TABS_FOR_HIBERNATION = 5
+
+function hibernateInactiveTabs () {
+  const currentTab = tabs.getSelected()
+  const allTabs = tabs.get()
+  if (!allTabs || allTabs.length <= MIN_TABS_FOR_HIBERNATION) {
+    return
+  }
+
+  const now = Date.now()
+  allTabs.forEach(function (tab) {
+    if (tab.id === currentTab || !webviews.hasViewForTab(tab.id) || tab.hasAudio || tab.pinned) {
+      return
+    }
+    const lastActive = webviews.tabLastActive[tab.id] || 0
+    if (now - lastActive > TAB_HIBERNATE_DELAY) {
+      webviews.destroy(tab.id)
+    }
+  })
+}
+
+setInterval(hibernateInactiveTabs, 60000)
+
+ipc.on('blur', function () {
+  if (webviews.selectedId) {
+    captureCurrentTab()
+  }
+})
 
 ipc.on('captureData', function (e, data) {
   tabs.update(data.id, { previewImage: data.url })

@@ -60,10 +60,40 @@ if (isDevelopmentMode) {
   app.setPath('userData', app.getPath('userData') + '-development')
 }
 
-// workaround for flicker when focusing app (https://github.com/electron/electron/issues/17942)
+// Workaround for flicker when focusing app
 app.commandLine.appendSwitch('disable-backgrounding-occluded-windows', 'true')
-// hardware-accelerated out-of-process rasterization for faster UI rendering
-app.commandLine.appendSwitch('enable-features', 'CanvasOopRasterization')
+
+// Hardware-accelerated GPU & rasterization pipeline
+app.commandLine.appendSwitch('enable-gpu-rasterization')
+app.commandLine.appendSwitch('enable-zero-copy')
+app.commandLine.appendSwitch('ignore-gpu-blocklist')
+app.commandLine.appendSwitch('enable-hardware-overlays')
+app.commandLine.appendSwitch('enable-native-gpu-memory-buffers')
+
+// Network, protocol & connection acceleration (HTTP/3 QUIC, TCP Fast Open, Async DNS)
+app.commandLine.appendSwitch('enable-quic')
+app.commandLine.appendSwitch('enable-tcp-fast-open')
+app.commandLine.appendSwitch('enable-async-dns')
+app.commandLine.appendSwitch('enable-fast-unload')
+
+// Performance cache sizing (1GB high-speed disk cache + 256MB media cache)
+app.commandLine.appendSwitch('disk-cache-size', '1073741824')
+app.commandLine.appendSwitch('media-cache-size', '268435456')
+
+// V8 JIT compiler optimization
+app.commandLine.appendSwitch('js-flags', '--max-opt=2')
+
+// Advanced Chromium performance features
+const perfFeatures = [
+  'CanvasOopRasterization',
+  'BackForwardCache',
+  'ParallelDownloading',
+  'SubresourceRedirect',
+  'RawDraw',
+  'ZeroCopy',
+  'TouchpadOverscrollHistoryNavigation'
+]
+app.commandLine.appendSwitch('enable-features', perfFeatures.join(','))
 
 var userDataPath = app.getPath('userData')
 

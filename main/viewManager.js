@@ -21,6 +21,9 @@ function getDefaultViewWebPreferences () {
       allowPopups: false,
       // partition: partition || 'persist:webcontent',
       enableWebSQL: false,
+      backgroundThrottling: true,
+      spellcheck: false,
+      webgl: true,
       autoplayPolicy: (settings.get('enableAutoplay') ? 'no-user-gesture-required' : 'user-gesture-required'),
       // match Chrome's default for anti-fingerprinting purposes (Electron defaults to 0)
       minimumFontSize: 6,

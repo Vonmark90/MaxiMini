@@ -144,7 +144,12 @@ function filterPopups (url) {
   return true
 }
 
+const trackingParamRegex = /[?&](msclkid|gclid|dclid|fbclid|yclid|_openstat|icid|igshid|mc_eid|_ref|ref_|pd_rd_r|pd_rd_w|pf_rd_i|pf_rd_m|pf_rd_p|pf_rd_s|pf_rd_t|pd_rd_wg|_trkparms)=/i
+
 function removeTrackingParams (url) {
+  if (!url.includes('?') || !trackingParamRegex.test(url)) {
+    return url
+  }
   try {
     var urlObj = new URL(url)
     for (const param of urlObj.searchParams) {
