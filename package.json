@@ -3,7 +3,7 @@
   "productName": "MaxiMini",
   "author": "PalmerAL",
   "version": "1.0.0",
-  "description": "MaxiMini is stylish  hyper fast optimized browser for mac. Cool,sleek, instant.",
+  "description": "MaxiMini is a stylish, hyper-fast browser engineered to work with minimum bandwidth to produce maximum results.",
   "electronVersion": "43.4.1",
   "main": "main.build.js",
   "standard": {
