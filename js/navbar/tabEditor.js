@@ -64,6 +64,16 @@ const tabEditor = {
 
     document.body.classList.remove('is-edit-mode')
     webviews.hidePlaceholder('editMode')
+
+    // Immediately sync the displayed URL to the current page after dismissal
+    var tabId = tabs.getSelected()
+    if (tabId) {
+      var tab = tabs.get(tabId)
+      if (tab) {
+        var currentURL = urlParser.getSourceURL(tab.url)
+        tabEditor.input.value = (currentURL === 'min://newtab' || !currentURL) ? '' : currentURL
+      }
+    }
   },
   updateSecurity: function (tab) {
     if (!tabEditor.securityIcon) {
@@ -110,8 +120,8 @@ const tabEditor = {
 
     tabEditor.updateSecurity(tab)
 
-    // Only update the input text if the user is not actively editing
-    if (!tabEditor.isShown) {
+    // Always update the URL unless the user is actively typing in the address bar
+    if (!tabEditor.isShown || document.activeElement !== tabEditor.input) {
       var currentURL = urlParser.getSourceURL(tab.url)
       if (currentURL === 'min://newtab' || !currentURL) {
         tabEditor.input.value = ''
